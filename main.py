@@ -31,8 +31,11 @@ def main():
         f.write(LINE)
     os.chmod(path, 0o644)
     with open(path, "rb") as f:
-        if f.read().decode("utf-8") != LINE:
-            sys.exit("read-back mismatch")
+        data = f.read()
+    if data.decode("utf-8") != LINE:
+        sys.exit("read-back mismatch")
+    if len(data) != len(LINE.encode("utf-8")):
+        sys.exit("written bytes differ from the line")
 
 
 if __name__ == "__main__":
